@@ -49,6 +49,7 @@ Create Table User (
     Contact_number VARCHAR(100),
     PRIMARY KEY (User_id)
 );
+
 d) Booking Table
 Create Table Booking (
     Booking_id INTEGER,
