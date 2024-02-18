@@ -1,7 +1,8 @@
 # PohBingSen-GovTech
  Technical_Test
 Task 2
-1. An architecture diagram of the infrastructure/s required to host your API. (Usage of AWS services is preferred) 
+1. An architecture diagram of the infrastructure/s required to host your API. (Usage of AWS services is preferred)
+    
 a) User login / registration service
 b) Payment Service for successful booking
 c) User Database
@@ -10,13 +11,15 @@ d) Carpark/lot Database
 *) If the user inputs a non-existing location, it will return an error message. To validate the user input against known carpark locations.
 *) If the lot is taken up while the user is travelling to the location, it will send a message telling the user is occupied and give the user option of the nearby available carpark lot. It will always send live updates of the reserved carpark lot while the user has booked the carpark slot successfully.
 
-2. A system design diagram that provides the logical flow of the carpark availability API. 
+2. A system design diagram that provides the logical flow of the carpark availability API.
+   
 a) Upon registered successful / login successfully, user able to request the carpark availability with their current location
 b) After the user books a desired carpark lot, it will send a status of “pending” and direct user to payment service
 c) After payment completed, the system will send a status of “confirmed”
 d) If the user doesn’t occupy the carpark lot within 15 minutes, the status will change to “cancelled”. The booking fee will be forfeited. 
 
 3. A database schema that depicts the tables together with fields required as well as the data type of the fields. This is for both storing and accessing data required by the API/s.
+   
 a) Carpark Lot Details Table – store all carparks information in Singapore
 Create Table CarparkDetails (
     Carpark_id INTEGER,
