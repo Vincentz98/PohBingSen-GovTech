@@ -14,16 +14,14 @@ with open('restaurant_data.json', 'r', encoding = 'utf-8') as f:
     data = json.load(f)
 
 # Function to map country codes to country names
-def map_country_code_to_name(country_code):
-    # Define an empty dictionary to store country code mapping
-    country_code_mapping = {}
+import pandas as pd
 
+def map_country_code_to_name(country_code):
     # Read the Excel file into a pandas DataFrame
     df = pd.read_excel('Country-Code.xlsx')
 
-    # Iterate through rows in the DataFrame and populate the mapping dictionary
-    for index, row in df.iterrows():
-        country_code_mapping[row['Country Code']] = row['Country']
+    # Set the 'Country Code' column as the index and convert it to a dictionary
+    country_code_mapping = df.set_index('Country Code')['Country'].to_dict()
 
     # Return the country name corresponding to the country code, or the code itself if not found
     return country_code_mapping.get(country_code, country_code)
@@ -49,6 +47,7 @@ for entry in data:
         #explicitly converting the restaurant aggregate rating
         res_agg_rating = float(restaurant['restaurant']['user_rating']['aggregate_rating'])
         res_cuisines = restaurant['restaurant']['cuisines']
+        #check for unique res_name
         if res_name not in unique_names:
             unique_names.add(res_name)
             # Count of Restaurant for checking with excel

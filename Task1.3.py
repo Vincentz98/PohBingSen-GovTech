@@ -41,3 +41,24 @@ for category in rating_categories:
 # Print the thresholds for each rating category
 for category, threshold in thresholds.items():
     print(f"{category}: {threshold}")
+
+# CHECKING
+
+# # Print all ratings for each category for checking
+# for category in rating_categories:
+#     # Get ratings for the current category
+#     ratings = aggregate_ratings.get(category, [])
+    
+#     # Print the category and its ratings
+#     print(f"{category} Ratings:")
+#     for rating in ratings:
+#         print(rating)
+#     print()  # Add a newline for better readability
+
+# # Print the number of ratings for each category
+# for category in rating_categories:
+#     # Get the number of ratings in the current category
+#     num_ratings = len(aggregate_ratings.get(category, []))
+    
+#     # Print the category and the number of ratings
+#     print(f"{category}: {num_ratings}")

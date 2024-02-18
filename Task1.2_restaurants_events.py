@@ -13,11 +13,9 @@ from datetime import datetime
 with open('restaurant_data.json', 'r', encoding = 'utf-8') as f:
     data = json.load(f)
 
+# Function to return true only if is april 2019
 def is_april_2019(date_str):
-    # Parse the date string as 'YYYY-MM-DD'
-    date = datetime.strptime(date_str, '%Y-%m-%d')
-    # Check if the year is 2019 and the month is April
-    return date.year == 2019 and date.month == 4
+    return date_str.startswith('2019-04')
 
 # List to store the extracted data
 extracted_data = []
@@ -29,19 +27,18 @@ unique_event_ids = set()
 event_count = 0
 
 # Event ID is the unique key that differ the rest of the entry from the others
-
 for entry in data:
     for restaurant in entry['restaurants']:
         res_id = restaurant['restaurant']['R']['res_id']
         res_name = restaurant['restaurant']['name']
-
-        # Initialize variables with "NA" so if there is no values filled, the 'NA' will filled
-        event_id ='NA'
-        photo_url = "NA"
-        title = "NA"
-        
-        # Check if the restaurant has any events
+        # Do no neeed the else case for no zomato_event, there is no start date and end date to double check for april 2019
         if 'zomato_events' in restaurant['restaurant']:
+            # Initialize variables with "NA" so if there are no values filled, "NA" will be used
+            event_id = 'NA'
+            photo_url = "NA"
+            title = "NA"
+            start_date = 'NA'
+            end_date = 'NA'
             # Iterate over each event and extract its details
             for item in restaurant['restaurant']['zomato_events']:
                 event_id = item['event']['event_id']
@@ -54,18 +51,20 @@ for entry in data:
                     if is_april_2019(start_date) and is_april_2019(end_date):
                         # Check if the event has photos
                         if 'photos' in item['event']:
-                            # Iterate over each photo and extract its URL
                             for photo in item['event']['photos']:
                                 photo_url = photo['photo']['url']
-                        # To double if the title exist in the event
+                        # To double-check if the title exists in the event
                         if 'title' in item['event']:
                             title = item['event']['title']
-                        #check the count of event
+                        # Increment event count
                         event_count += 1
                         # Print the event details
                         print(f"{event_count}) Event ID: {event_id}, Restaurant ID: {res_id}, Restaurant Name: {res_name}, Photo Url: {photo_url}, Event Title: {title}, Event Start Date: {start_date}, Event End Date: {end_date}")
                         # Append the extracted data for csv export
                         extracted_data.append([event_id, res_id, res_name, photo_url, title, start_date, end_date])
+
+
+
 
 # Print the count of events processed
 print(f"Total number of past event in the month of April 2019: {event_count}")                
@@ -76,7 +75,7 @@ csv_file_path = 'restaurant_events.csv'
 # Write the extracted data to a CSV file
 with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    # Write the header row
+    # Write the header row that is wanted
     writer.writerow(['Event Id', 'Restaurant Id', 'Restaurant Name', 'Photo URL', 'Event Title', 'Event Start Date', 'Event End Date'])
     # Write the extracted data rows
     writer.writerows(extracted_data)
